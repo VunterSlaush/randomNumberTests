@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/VunterSlaush/randomNumberTests/issues"
   },
-  "homepage": "https://github.com/VunterSlaush/randomNumberTests#readme"
+  "homepage": "https://github.com/VunterSlaush/randomNumberTests#readme",
+  "dependencies": {
+    "jStat": "^1.7.1"
+  }
 }

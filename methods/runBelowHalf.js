@@ -1,6 +1,6 @@
 const utils = require("./utils");
 
-module.exports = function(numbers) {
+module.exports = function(numbers, a) {
   const media = utils.calculateMedia(numbers);
   const runStr = toRunString(numbers, media);
   const runs = utils.calculateRuns(runStr);
@@ -9,6 +9,17 @@ module.exports = function(numbers) {
   const expected = calculateExpected(n1, n2);
   const varianza = calculateVarianza(n1, n2);
   const zCalculated = calculateZ(runs, expected, varianza);
+  //TODO
+  const zIndex = 1 - a / 2;
+  const zFromTable = utils.reverseZ(zIndex);
+  const valid = zCalculated < zFromTable;
+  return {
+    valid: valid,
+    zCalculated: zCalculated,
+    runs: runs,
+    n1: n1,
+    n2: n2
+  };
 };
 
 function toRunString(numbers, media) {

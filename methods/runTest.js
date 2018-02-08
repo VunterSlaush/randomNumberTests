@@ -1,15 +1,14 @@
 const utils = require("./utils");
 
-module.exports = function(numbers) {
+module.exports = function(numbers, significancy) {
   const runStr = toRunString(numbers);
   const runs = utils.calculateRuns(runStr);
-  console.log("runStr", runStr);
-  console.log("Runs", runs);
-
   const media = (2 * runs - 1) / 3;
   const varianza = (16 * runs - 29) / 90;
   const zCalc = (a - media) / varianza;
-  console.log("Runs", runs, zCalc);
+  const zCalculated = 1 - significancy / 2;
+  const zFromTable = utils.reverseZ(zIndex);
+  const valid = zCalculated < zFromTable;
 };
 
 function toRunString(numbers) {
