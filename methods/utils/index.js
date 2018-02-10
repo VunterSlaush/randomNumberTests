@@ -1,4 +1,18 @@
-var jStat = require("jStat").jStat;
+const jStat = require("jStat").jStat;
+const requireAll = require("require-all");
+const tables = requireAll({
+  dirname: __dirname + "/tables",
+  filter: filename => {
+    return filename;
+  }
+});
+
+Number.prototype.toFixedDown = function(digits) {
+  var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
+    m = this.toString().match(re);
+  return m ? parseFloat(m[1]) : this.valueOf();
+};
+
 function calculateRuns(runStr) {
   let count = 0;
   for (var i = 0; i < runStr.length; i++) {
@@ -61,9 +75,29 @@ function reverseChi(x, dof) {
   return jStat.chisquare.inv(1 - x, dof);
 }
 
+function chiSquareTable(x, dof) {
+  console.log("CHI SQUARE", x, dof);
+  return jStat.chisquare.cdf(x, dof);
+}
+
+function kolmogorovTable(n, a) {
+  const table = tables["kolmogorov.js"][n - 1];
+
+  if (table[n.toString()] == null) throw new Exception("Error Value Not Found");
+  const values = table[n.toString()];
+  let signIndex = 0.2;
+  for (var i = 0; i < values.length; i++) {
+    if (a == signIndex.toFixedDown(2)) return values[i];
+    if (signIndex > 0.05) signIndex -= 0.05;
+    else signIndex = 0.01;
+  }
+}
+
 module.exports = {
   calculateRuns,
+  kolmogorovTable,
   calculateMedia,
+  chiSquareTable,
   reverseZ,
   getZPercent,
   reverseChi

@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/VunterSlaush/randomNumberTests#readme",
   "dependencies": {
-    "jStat": "^1.7.1"
+    "jStat": "^1.7.1",
+    "require-all": "^2.2.0"
   }
 }
