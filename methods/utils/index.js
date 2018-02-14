@@ -81,7 +81,9 @@ function chiSquareTable(x, dof) {
 }
 
 function kolmogorovTable(n, a) {
-  const table = tables["kolmogorov.js"][n - 1];
+  if (n > 35) n = 35;
+
+  const table = findRow(tables["kolmogorov.js"], n);
 
   if (table[n.toString()] == null) throw new Exception("Error Value Not Found");
   const values = table[n.toString()];
@@ -91,6 +93,15 @@ function kolmogorovTable(n, a) {
     if (signIndex > 0.05) signIndex -= 0.05;
     else signIndex = 0.01;
   }
+}
+
+function findRow(table, k) {
+  for (var i in table) {
+    if (Object.keys(table[i])[0] == k) {
+      return table[i];
+    }
+  }
+  return null;
 }
 
 module.exports = {

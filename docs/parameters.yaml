@@ -1,0 +1,19 @@
+
+parameters:
+  significancy:
+    name: significancy
+    in: body
+    description: significancy value
+    type: number
+  numbersFile:
+    name: numbersFile
+    in: formData
+    description: txt or json with array of numbers
+    type: file
+  numbers:
+    name: numbers
+    in: body
+    description: array of numbers
+    type: array
+    items:
+      type: number

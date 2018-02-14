@@ -1,0 +1,428 @@
+{
+	"info": {
+		"title": "JobChat API",
+		"description": "Endpoints provided by JobChat's API.",
+		"version": "1.0"
+	},
+	"schemes": ["http", "https"],
+	"basePath": "/api/v1.0",
+	"produces": ["application/json"],
+	"paths": {
+		"/core/services/stats": {
+			"get": {
+				"summary": "Reports usage of core services",
+				"description": "Reports usage of core services",
+				"tags": ["Core"],
+				"responses": {
+					"200": {
+						"description": "List of services and call count"
+					}
+				}
+			}
+		},
+		"/core/spider/build": {
+			"post": {
+				"summary":
+					"creates missing categories_groups_phases_teams records according to groups.participantsw",
+				"description":
+					"creates missing categories_groups_phases_teams records according to groups.participants",
+				"tags": ["Core"],
+				"responses": {
+					"200": {
+						"description": "List of services and call count"
+					}
+				}
+			}
+		},
+		"/core/s3_signed_url": {
+			"get": {
+				"summary": "Returns a signed URL to upload a file to SomoSport",
+				"description": "Returns a signed URL to upload a file to SomoSport",
+				"tags": ["Core"],
+				"parameters": [
+					{
+						"name": "file_name",
+						"description": "The name under which the file will be saved",
+						"in": "query",
+						"type": "string",
+						"required": true
+					},
+					{
+						"name": "file_type",
+						"description": "MIME type of the file",
+						"in": "query",
+						"type": "string",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description":
+							"A signed url for upload; a final URL to access the file"
+					}
+				}
+			}
+		},
+		"/core/feed/rebuild": {
+			"post": {
+				"summary": "Rebuilds feed items. Truncates feed item table.",
+				"description":
+					"Truncates feed_items table, deletes all feed item relations, then rebuilds all feed items.",
+				"tags": ["Core", "Feed"],
+				"parameters": [
+					{
+						"name": "Authorization-Token",
+						"in": "header",
+						"type": "string",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK message"
+					}
+				}
+			}
+		},
+		"/core/entities/build": {
+			"post": {
+				"summary": "Builds missing competition entities",
+				"description": "Builds missing competition entities",
+				"tags": ["Core"],
+				"responses": {
+					"200": {
+						"description": "OK message"
+					}
+				}
+			}
+		},
+		"/user": {
+			"get": {
+				"summary": "Returns the list of active users",
+				"description": "Returns the list of active users",
+				"tags": ["User"],
+				"parameters": [
+					{
+						"name": "Authorization-Token",
+						"in": "header",
+						"type": "string",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Active user list"
+					}
+				}
+			}
+		},
+		"/user/login": {
+			"post": {
+				"summary":
+					"Authenticates an user, given its username & password (Active)",
+				"description": "Authenticates an user, given its username & password",
+				"tags": ["User"],
+				"parameters": [
+					{
+						"name": "Body",
+						"in": "body",
+						"required": true,
+						"x-is-map": false,
+						"schema": {
+							"$ref": "#/definitions/UserLogin"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Active user list"
+					}
+				}
+			}
+		},
+		"/user/register": {
+			"post": {
+				"summary": "Registers a user in Somosport DB (Active)",
+				"description": "Registers a user in Somosport DB",
+				"tags": ["User"],
+				"parameters": [
+					{
+						"name": "Body",
+						"in": "body",
+						"required": true,
+						"x-is-map": false,
+						"schema": {
+							"title": "User Creation Request",
+							"type": "object",
+							"properties": {
+								"username": {
+									"type": "string"
+								},
+								"email": {
+									"type": "string"
+								},
+								"password": {
+									"type": "string"
+								}
+							},
+							"required": ["player_id"]
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Active user list"
+					}
+				}
+			}
+		},
+		"/user/team": {
+			"get": {
+				"summary": "Returns a list of teams on which this user is an owner",
+				"description": "Returns a list of teams on which this user is an owner",
+				"tags": ["User"],
+				"parameters": [
+					{
+						"name": "Authorization-Token",
+						"in": "header",
+						"type": "string",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "User team list"
+					},
+					"403": {
+						"description":
+							"Invalid Authorization-Token or no Authorization-Token received"
+					},
+					"404": {
+						"description": "No teams found"
+					}
+				}
+			}
+		},
+		"/user/{user_id}/feed": {
+			"get": {
+				"summary": "Returns the news feed of an user",
+				"description": "Returns the news feed of an user",
+				"tags": ["User", "Feed"],
+				"parameters": [
+					{
+						"name": "Authorization-Token",
+						"in": "header",
+						"type": "string",
+						"required": true
+					},
+					{
+						"name": "user_id",
+						"in": "path",
+						"description": "User ID",
+						"required": true,
+						"type": "integer",
+						"format": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "User news feed"
+					},
+					"403": {
+						"description":
+							"Invalid Authorization-Token or no Authorization-Token received"
+					},
+					"404": {
+						"description": "No news found"
+					}
+				}
+			}
+		},
+		"/user/{user_id}": {
+			"get": {
+				"summary": "Return info of a user",
+				"description": "Return info of a user",
+				"tags": ["User"],
+				"parameters": [
+					{
+						"name": "user_id",
+						"in": "path",
+						"description": "User ID",
+						"required": true,
+						"type": "integer",
+						"format": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "User info"
+					},
+					"403": {
+						"description":
+							"Invalid Authorization-Token or no Authorization-Token received"
+					},
+					"404": {
+						"description": "No user found"
+					}
+				}
+			}
+		},
+		"/user/{user_id}/organization": {
+			"get": {
+				"summary": "Returns the organizations of a user",
+				"description": "Returns the organizations of a user",
+				"tags": ["User"],
+				"parameters": [
+					{
+						"name": "user_id",
+						"in": "path",
+						"description": "User ID",
+						"required": true,
+						"type": "integer",
+						"format": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "User info"
+					},
+					"204": {
+						"description": "No user found"
+					}
+				}
+			}
+		},
+		"/user/language/": {
+			"put": {
+				"summary": "Updates the user prefered language",
+				"description": "Updates the user prefered language",
+				"tags": ["User"],
+				"parameters": [
+					{
+						"name": "lang",
+						"in": "body",
+						"description": "language",
+						"required": true,
+						"type": "string",
+						"format": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "User info"
+					},
+					"403": {
+						"description":
+							"Invalid Authorization-Token or no Authorization-Token received"
+					},
+					"404": {
+						"description": "No user found"
+					}
+				}
+			}
+		},
+		"/user/reset_password_request": {
+			"post": {
+				"summary":
+					"Allowd the user to star the process to reset his password, with only his username or email (Active)",
+				"description":
+					"Allowd the user to star the process to reset his password, with only his username or email",
+				"tags": ["User"],
+				"parameters": [
+					{
+						"name": "Body",
+						"in": "body",
+						"required": true,
+						"x-is-map": false,
+						"schema": {
+							"title": "reset password request",
+							"type": "object",
+							"properties": {
+								"username_email": {
+									"type": "string",
+									"description": "Username or email"
+								}
+							},
+							"required": ["username_email"]
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Went user found and the email is send"
+					}
+				}
+			}
+		},
+		"/user/reset_password": {
+			"put": {
+				"summary":
+					"Allowd the user to reset his password, with only his username or email  (Active)",
+				"description":
+					"Allowd the user to reset his password, with only his username or email",
+				"tags": ["User"],
+				"parameters": [
+					{
+						"name": "Body",
+						"in": "body",
+						"required": true,
+						"x-is-map": false,
+						"schema": {
+							"title": "password change request",
+							"type": "object",
+							"properties": {
+								"token": {
+									"type": "string",
+									"description": "token"
+								},
+								"password": {
+									"type": "string",
+									"description": "New password"
+								}
+							},
+							"required": ["token", "new_password"]
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": null
+					}
+				}
+			}
+		},
+		"/competition": {
+			"get": {
+				"summary":
+					"List of competitions managed by the user_id received in auth-token",
+				"description":
+					"List of competitions managed by the user_id received in auth-token",
+				"tags": ["Competition"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization-Token",
+						"in": "header",
+						"type": "string",
+						"required": true
+					},
+					{
+						"name": "sort",
+						"in": "query",
+						"type": "string",
+						"required": false
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "List of competition managed by token user"
+					},
+					"404": {
+						"description": "User doesn't manage any competitions"
+					}
+				},
+				"security": []
+			}
+		}
+	}
+}

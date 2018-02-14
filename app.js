@@ -1,42 +1,53 @@
-const runTest = require("./methods/runTest");
-const runBelowHalf = require("./methods/runBelowHalf");
-const chiSquare = require("./methods/chiSquare");
-const kolmogorov = require("./methods/kolmogorov");
-const poker = require("./methods/poker");
-console.log(
-  poker(
-    [
-      0.85881,
-      "0.99700",
-      0.75289,
-      0.82813,
-      0.02818,
-      0.36065,
-      0.45649,
-      0.06451,
-      0.07582,
-      0.73994,
-      "0.52480",
-      0.03333,
-      "0.50410",
-      0.76568,
-      0.11767,
-      0.37587,
-      0.55763,
-      0.33089,
-      0.53339,
-      "0.41700",
-      0.24577,
-      0.74797,
-      0.92023,
-      0.93143,
-      "0.05520",
-      0.94996,
-      0.35838,
-      0.85376,
-      0.41727,
-      0.08969
-    ],
-    0.05
-  )
-);
+const express = require("express");
+const router = express.Router();
+const routes = require("./routes");
+const logger = require("morgan");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const swaggerUi = require("swagger-ui-express");
+const swaggerJSDoc = require("swagger-jsdoc");
+const getSwaggerJSDocOpts = require("./docs/options.js");
+const cors = require("cors");
+const fileUpload = require("express-fileupload");
+
+const fs = require("fs");
+const https = require("https");
+
+const swaggerJSDocOpts = getSwaggerJSDocOpts(process.env.NODE_ENV);
+
+const app = express();
+const swaggerSpec = swaggerJSDoc(swaggerJSDocOpts);
+
+app.use(logger("dev"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(cors());
+app.use(fileUpload());
+app.use("/api", routes);
+app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use(function(req, res, next) {
+  const err = new Error("Not Found");
+  err.status = 404;
+  next(err);
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  console.log("ERR", err);
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render("error");
+});
+
+const port = process.env.PORT || "3000";
+const server = app.listen(port);
+
+console.info(`App is running on  http://localhost:${port}`);
+
+module.exports = server;
