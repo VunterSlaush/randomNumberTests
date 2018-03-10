@@ -9,10 +9,7 @@ const swaggerJSDoc = require("swagger-jsdoc");
 const getSwaggerJSDocOpts = require("./docs/options.js");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
-
 const fs = require("fs");
-const https = require("https");
-
 const swaggerJSDocOpts = getSwaggerJSDocOpts(process.env.NODE_ENV);
 
 const app = express();

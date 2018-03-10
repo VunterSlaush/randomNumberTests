@@ -5,19 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "test": "node backup.js && mocha --recursive && node restore.js"
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VunterSlaush/randomNumberTests.git"
   },
-  "keywords": [
-    "simulation",
-    "chi-square",
-    "maximun",
-    "minimun"
-  ],
+  "keywords": ["simulation", "chi-square", "maximun", "minimun"],
   "author": "Jesus Mota",
   "license": "ISC",
   "bugs": {
