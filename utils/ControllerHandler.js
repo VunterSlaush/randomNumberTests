@@ -5,7 +5,10 @@ const controllerHandler = method => async (req, res, next) => {
     const numbers = req.body.numbers
       ? req.body.numbers
       : await getNumbers(req.files.numbersFile);
-    const result = method(numbers, req.body.significancy);
+    const numbersFormatted =
+      numbers instanceof Array ? numbers : convertToNumbers(numbers);
+    console.log("FORMated", numbersFormatted);
+    const result = method(numbersFormatted, req.body.significancy);
     return res.json(result || { message: "OK" });
   } catch (error) {
     console.log("Error", error);
@@ -21,7 +24,13 @@ String.prototype.replaceAll = function(search, replacement) {
 
 async function getNumbers(file) {
   const fileText = file.data.toString("utf8"); //await read(file.data);
-  const matches = fileText
+  const matches = convertToNumbers(fileText);
+  return matches;
+}
+
+function convertToNumbers(text) {
+  console.log("CALLING convertToNumbers");
+  return text
     .replaceAll("[", "")
     .replaceAll("]", "")
     .replaceAll(",", "")
@@ -29,7 +38,6 @@ async function getNumbers(file) {
     .map(function(item) {
       return Number(item);
     });
-  return matches;
 }
 
 module.exports = controllerHandler;

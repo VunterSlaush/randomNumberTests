@@ -24,8 +24,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 app.use(fileUpload());
+app.use(express.static("public"));
+
+app.get("/", function(req, res) {
+  res.render("index.html");
+});
+
 app.use("/api", routes);
-app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(function(req, res, next) {
   const err = new Error("Not Found");

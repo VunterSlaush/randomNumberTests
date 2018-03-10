@@ -3,11 +3,12 @@ module.exports = function(numbers, significancy) {
   const orderedNumbers = orderNumbers(numbers);
   const kolmogorovTestTable = kolmogorov(orderedNumbers);
   const dCalc = findMaxFromKolmogorovTable(kolmogorovTestTable);
-  const valid = utils.kolmogorovTable(numbers.length, significancy) >= dCalc;
+  const dTable = utils.kolmogorovTable(numbers.length, significancy);
+  const valid = dTable >= dCalc;
   return {
     valid: valid,
-    dCalc: dCalc,
-    dTable: utils.kolmogorovTable(numbers.length, significancy),
+    dCalc,
+    dTable,
     tableResult: kolmogorovTestTable
   };
 };
@@ -25,7 +26,7 @@ function kolmogorov(numbers) {
   let n = numbers.length;
   for (var i in numbers) {
     row = {};
-    row.i = i + 1;
+    row.i = Number(i) + 1;
     row.xi = numbers[i];
     row["i/n"] = (i + 1) / n;
     row["i/n-xi"] = row["i/n"] - row.xi;

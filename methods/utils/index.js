@@ -64,10 +64,10 @@ function getZPercent(z) {
 function reverseZ(z) {
   let init = 0.0;
   for (var i = 0.0; i < 6.5; i += 0.001) {
-    if (z - GetZPercent(i) <= 0.000001) return i;
+    if (z - getZPercent(i) <= 0.000001) return i;
   }
   for (var i = 6.5; i >= 0.0; i -= 0.001) {
-    if (z - GetZPercent(i) <= 0.000001) return i;
+    if (z - getZPercent(i) <= 0.000001) return i;
   }
 }
 
@@ -76,7 +76,6 @@ function reverseChi(x, dof) {
 }
 
 function chiSquareTable(x, dof) {
-  console.log("CHI SQUARE", x, dof);
   return jStat.chisquare.cdf(x, dof);
 }
 

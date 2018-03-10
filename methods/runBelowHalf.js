@@ -18,7 +18,9 @@ module.exports = function(numbers, a) {
     zCalculated: zCalculated,
     runs: runs,
     n1: n1,
-    n2: n2
+    n2: n2,
+    zFromTable,
+    runStr
   };
 };
 
