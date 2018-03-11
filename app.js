@@ -10,6 +10,7 @@ const getSwaggerJSDocOpts = require("./docs/options.js");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const fs = require("fs");
+console.log("ANTES DE SWAGGER");
 const swaggerJSDocOpts = getSwaggerJSDocOpts(process.env.NODE_ENV);
 
 const app = express();
@@ -21,8 +22,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 app.use(fileUpload());
+console.log("ANTES DEL STATIC");
 app.use(express.static("public"));
-
+console.log("LUEGO DEL STATIC");
 app.get("/", function(req, res) {
   res.render("index.html");
 });
@@ -49,8 +51,9 @@ app.use(function(err, req, res, next) {
 });
 
 const port = process.env.PORT || "3000";
-const server = app.listen(port);
-
-console.info(`App is running on  http://localhost:${port}`);
+const server = app.listen(port, function() {
+  console.log(`Listening on http://localhost:${port}/`);
+  //console.info(`App is running on  http://localhost:${port}`);
+});
 
 module.exports = server;
