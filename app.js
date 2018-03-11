@@ -10,7 +10,8 @@ const getSwaggerJSDocOpts = require("./docs/options.js");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const fs = require("fs");
-console.log("ANTES DE SWAGGER");
+var favicon = require("serve-favicon");
+
 const swaggerJSDocOpts = getSwaggerJSDocOpts(process.env.NODE_ENV);
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(cors());
 app.use(fileUpload());
 console.log("ANTES DEL STATIC");
 app.use(express.static("public"));
+app.use(favicon(__dirname + "/public/assets/favicon.ico"));
 console.log("LUEGO DEL STATIC");
 app.get("/", function(req, res) {
   res.render("index.html");
