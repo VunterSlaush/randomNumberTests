@@ -1,8 +1,7 @@
 {
-  "name": "randomnumbertests",
+  "name": "something ..",
   "version": "1.0.0",
   "description": "a project for a university subject",
-  "main": "index.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
@@ -11,18 +10,16 @@
     "type": "git",
     "url": "git+https://github.com/VunterSlaush/randomNumberTests.git"
   },
-  "keywords": [
-    "simulation",
-    "chi-square",
-    "maximun",
-    "minimun"
-  ],
+  "keywords": ["simulation", "chi-square", "maximun", "minimun"],
   "author": "Jesus Mota",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/VunterSlaush/randomNumberTests/issues"
   },
   "homepage": "https://github.com/VunterSlaush/randomNumberTests#readme",
+  "engines": {
+    "node": "8.9.1"
+  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.1",
@@ -34,15 +31,12 @@
     "express": "~4.15.5",
     "express-fileupload": "^0.3.0",
     "jStat": "^1.7.1",
-    "jwt-simple": "^0.5.1",
-    "m-seeds": "^1.1.0",
     "mocha": "^4.0.1",
     "morgan": "~1.9.0",
     "nodemon": "^1.12.1",
     "npm": "^5.7.1",
     "require-all": "^2.2.0",
     "serve-favicon": "~2.4.5",
-    "supertest": "^3.0.0",
     "swagger-jsdoc": "^1.9.7",
     "swagger-ui-express": "^2.0.11"
   }
