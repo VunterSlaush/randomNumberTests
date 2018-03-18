@@ -7,9 +7,8 @@ module.exports = function(numbers, a) {
   const n1 = runsForCertainChar(runStr, "+");
   const n2 = runsForCertainChar(runStr, "-");
   const expected = calculateExpected(n1, n2);
-  const varianza = calculateVarianza(n1, n2);
+  const varianza = calculateVarianza(n1, n2, numbers.length);
   const zCalculated = calculateZ(runs, expected, varianza);
-  //TODO
   const zIndex = 1 - a / 2;
   const zFromTable = utils.reverseZ(zIndex);
   const valid = zCalculated < zFromTable;
@@ -43,21 +42,20 @@ function runsForCertainChar(runStr, chr) {
 }
 
 function calculateExpected(n1, n2) {
-  const b = 2 * (n1 * n2);
-  const a = b / (n1 + n2);
-  return a + 1 / 2;
+  const a = 2 * n1 * n2;
+  const b = n1 + n2;
+  return 1 + a / b;
 }
 
-function calculateVarianza(n1, n2) {
-  const n = n1 + n2;
+function calculateVarianza(n1, n2, n) {
   const twoN = 2 * n1 * n2;
-  const nSqre = Math.pow(n, 2);
+  const nPow = Math.pow(n, 2);
   const a = twoN * (twoN - n);
-  const b = nSqre * (n - 1);
+  const b = nPow * (n - 1);
   return a / b;
 }
 
 function calculateZ(runs, expected, varianza) {
   const a = runs - expected;
-  return a / varianza;
+  return a / Math.sqrt(varianza);
 }

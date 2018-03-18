@@ -72,7 +72,15 @@ function chisquare(data) {
     searching: false,
     paging: false,
     bFilter: false,
-    bInfo: false
+    bInfo: false,
+    aoColumnDefs: [
+      {
+        aTargets: [3],
+        mRender: function(data, type, full) {
+          return data.toString().match(/^-?\d+(?:\.\d{0,4})?/)[0];
+        }
+      }
+    ]
   });
 
   data.intervals.map(function(item) {
@@ -109,7 +117,15 @@ function poker(data) {
     searching: false,
     paging: false,
     bFilter: false,
-    bInfo: false
+    bInfo: false,
+    aoColumnDefs: [
+      {
+        aTargets: [2, 3],
+        mRender: function(data, type, full) {
+          return data.toString().match(/^-?\d+(?:\.\d{0,4})?/)[0];
+        }
+      }
+    ]
   });
   for (var key in data.table) {
     table.row
@@ -226,7 +242,15 @@ function kolmogorov(data) {
   let table = $("#displayTable").DataTable({
     searching: false,
     bFilter: false,
-    bInfo: false
+    bInfo: false,
+    aoColumnDefs: [
+      {
+        aTargets: [1, 2, 3, 4],
+        mRender: function(data, type, full) {
+          return data.toString().match(/^-?\d+(?:\.\d{0,4})?/)[0];
+        }
+      }
+    ]
   });
 
   data.tableResult.map(function(item) {
@@ -273,7 +297,15 @@ function gaps(data) {
     paging: false,
     bFilter: false,
     bInfo: false,
-    order: []
+    order: [],
+    aoColumnDefs: [
+      {
+        aTargets: [4],
+        mRender: function(data, type, full) {
+          return data.toString().match(/^-?\d+(?:\.\d{0,4})?/)[0];
+        }
+      }
+    ]
   });
   for (var key in data.intervalsTable) {
     table.row

@@ -63,20 +63,26 @@ function findHigherGap(table) {
   return higher;
 }
 function findHighDivisor(number) {
-  for (var i = number - 10; i > 1; i--) {
-    if (number % i == 0) return i;
+  let divisor = 1;
+  if (number % 2 != 0) number += 1;
+  for (var i = 1; i <= 3; i++) {
+    if (number % i == 0) divisor = i;
   }
-  return 1;
+
+  return divisor;
 }
 function generateIntervalsTable(divisor, limit) {
   let from = 0; // 0
   let to = divisor; // 5
   const table = {};
+
   for (var i = 0; i < limit / divisor; i++) {
     table[from + "-" + to] = { from: from, to: to };
+    if (to == limit) break;
     from = to + 1; // 6
     to = to + divisor + 1; // 5 + 5 + 1 = 11
-    if (to > limit) to = limit;
+
+    //if (to > limit) to = limit;
   }
   return table;
 }
@@ -109,7 +115,9 @@ function fillSNColum(intervalsTable) {
   let sum = 0;
   for (var i in intervalsTable) {
     intervalsTable[i].sn = sum + intervalsTable[i].refreq;
-    sum += intervalsTable[i].sn;
+
+    console.log("Sum", sum, intervalsTable[i].sn);
+    sum += intervalsTable[i].refreq;
   }
 }
 function fillFXColum(intervalsTable) {

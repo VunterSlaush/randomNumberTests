@@ -23,10 +23,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 app.use(fileUpload());
-console.log("ANTES DEL STATIC");
 app.use(express.static("public"));
 app.use(favicon(__dirname + "/public/assets/favicon.ico"));
-console.log("LUEGO DEL STATIC");
+
 app.get("/", function(req, res) {
   res.render("index.html");
 });

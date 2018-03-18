@@ -7,7 +7,6 @@ const controllerHandler = method => async (req, res, next) => {
       : await getNumbers(req.files.numbersFile);
     const numbersFormatted =
       numbers instanceof Array ? numbers : convertToNumbers(numbers);
-    console.log("FORMated", numbersFormatted);
     const result = method(numbersFormatted, req.body.significancy);
     return res.json(result || { message: "OK" });
   } catch (error) {
