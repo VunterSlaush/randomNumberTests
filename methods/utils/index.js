@@ -87,7 +87,7 @@ function kolmogorovTable(n, a) {
   const significancies = [0.2, 0.1, 0.05, 0.02, 0.01, 0.005, 0.002, 0.001];
   const numerators = [1.07, 1.22, 1.36, 1.52, 1.63, 1.73, 1.85, 1.95];
   if (n > 50) {
-    for (var i = 0; i < significancies; i++) {
+    for (var i = 0; i < significancies.length; i++) {
       if (a == significancies[i]) return numerators[i] / Math.sqrt(n);
     }
   }

@@ -79,13 +79,22 @@ function evaluateCase(obj) {
 }
 
 function countObserverFreq(numbers, table) {
-  let repeatedObj, casse;
+  let repeatedObj, casse, n;
+
   for (var i = 0; i < numbers.length; i++) {
-    repeatedObj = associativeRepeates(numbers[i].toString().substring(2, 7));
+    n = convertToExpected(numbers[i].toString()).substring(2, 7);
+    repeatedObj = associativeRepeates(n);
     casse = evaluateCase(repeatedObj);
     table[casse].fo += 1;
   }
   return table;
+}
+
+function convertToExpected(str) {
+  while (str.length < 7) {
+    str = str + "0";
+  }
+  return str;
 }
 
 function calculateExpectedFreq(table, n) {

@@ -2,8 +2,21 @@ function ejecutar() {
   let method = $("#method").val();
   let significancy = Number($("#significancy").val());
   let fileInput = $("#fileInput")[0].files[0];
-  let textInput = $("#textInput").val();
+  let textInput = removeUnneededSpaces(
+    $("#textInput")
+      .val()
+      .trim()
+  );
+  console.log("inp", textInput);
   makeRequest(method, significancy, fileInput || textInput);
+}
+
+function removeUnneededSpaces(input) {
+  return input
+    .replace(new RegExp(",", "g"), " ")
+    .replace(/\r?\n|\r/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function makeRequest(method, significancy, input) {

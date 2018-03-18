@@ -19,7 +19,7 @@ module.exports = function(numbers, significancy) {
 function generateIntervals(m, numbers, expected) {
   const intervals = [];
   let sum = 0;
-  for (var i = 1; i <= m; i++) {
+  for (var i = 1; i <= 10; i++) {
     let obj = {};
     obj.from = sum;
     sum += 0.1;
