@@ -275,6 +275,23 @@ function gaps(data) {
   }
 }
 
+function half(data) {
+  var valid = generateValid(data.valid);
+  var zCalculada =
+    '<h5>r: <span class="badge badge-primary">' + data.r + "</span></h5>";
+
+  var zTabla =
+    '<h5>LIR: <span class="badge badge-primary">' + data.lir + "</span></h5>";
+
+  var corridas =
+    '<h5>LSR: <span class="badge badge-primary">' + data.lsr + "</span></h5>";
+
+  var corridasStr = "<h5>N: " + data.n + "</h5>";
+
+  $("#result").empty();
+  $("#result").append(valid + zCalculada + zTabla + corridas + corridasStr);
+}
+
 function generateValid(valid) {
   var colorValid = valid ? "primary" : "secondary";
   var validText = valid ? "Aceptada" : "No Aceptada";

@@ -63,11 +63,15 @@ function getZPercent(z) {
 
 function reverseZ(z) {
   let init = 0.0;
-  for (var i = 0.0; i < 6.5; i += 0.001) {
-    if (z - getZPercent(i) <= 0.000001) return i;
-  }
+  let r;
   for (var i = 6.5; i >= 0.0; i -= 0.001) {
-    if (z - getZPercent(i) <= 0.000001) return i;
+    r = Math.abs(z - getZPercent(i));
+    if (r <= 0.00001) return i;
+  }
+
+  for (var i = -6.5; i < 0.0; i += 0.001) {
+    r = Math.abs(z - getZPercent(i));
+    if (r <= 0.00001) return i;
   }
 }
 
@@ -80,17 +84,21 @@ function chiSquareTable(x, dof) {
 }
 
 function kolmogorovTable(n, a) {
-  if (n > 35) n = 35;
+  const significancies = [0.2, 0.1, 0.05, 0.02, 0.01, 0.005, 0.002, 0.001];
+  const numerators = [1.07, 1.22, 1.36, 1.52, 1.63, 1.73, 1.85, 1.95];
+  if (n > 50) {
+    for (var i = 0; i < significancies; i++) {
+      if (a == significancies[i]) return numerators[i] / Math.sqrt(n);
+    }
+  }
 
   const table = findRow(tables["kolmogorov.js"], n);
 
   if (table[n.toString()] == null) throw new Exception("Error Value Not Found");
   const values = table[n.toString()];
-  let signIndex = 0.2;
-  for (var i = 0; i < values.length; i++) {
-    if (a == signIndex.toFixedDown(2)) return values[i];
-    if (signIndex > 0.05) signIndex -= 0.05;
-    else signIndex = 0.01;
+
+  for (var i = 0; i < significancies; i++) {
+    if (a == significancies[i]) return values[i];
   }
 }
 

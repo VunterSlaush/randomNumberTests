@@ -6,6 +6,7 @@ const chisquare = require("../methods/chisquare");
 const kolmogorov = require("../methods/kolmogorov");
 const poker = require("../methods/poker");
 const run = require("../methods/runTest");
+const half = require("../methods/half");
 const runBelowHalf = require("../methods/runBelowHalf");
 const gap = require("../methods/gap");
 /**
@@ -121,5 +122,7 @@ router.post("/runBelowHalf", handler(runBelowHalf));
  *         description: result
  */
 router.post("/gaps", handler(gap));
+
+router.post("/half", handler(half));
 
 module.exports = router;
