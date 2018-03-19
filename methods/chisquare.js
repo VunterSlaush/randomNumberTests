@@ -1,4 +1,5 @@
 const utils = require("./utils");
+const ApiError = require("../utils/ApiError");
 module.exports = function(numbers, significancy) {
   const m = Math.sqrt(numbers.length);
   const expected = numbers.length / m;
@@ -26,6 +27,8 @@ function generateIntervals(m, numbers, expected) {
     sum = Math.round(sum * 100) / 100;
     obj.to = sum;
     obj.count = numbers.filter(function(n) {
+      if (n > 1)
+        throw new ApiError("Este metodo solo permite valores entre 0 y 1", 400)
       return n > obj.from && n <= obj.to;
     }).length;
     let a = Math.pow(obj.count - expected, 2);

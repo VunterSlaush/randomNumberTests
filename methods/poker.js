@@ -1,5 +1,5 @@
 const utils = require("./utils");
-
+const ApiError = require("../utils/ApiError");
 const CASES = ["TD", "1P", "2P", "T", "TP1", "P", "Q"];
 const PROB_VALUES = {
   TD: 0.3024,
@@ -82,6 +82,9 @@ function countObserverFreq(numbers, table) {
   let repeatedObj, casse, n;
 
   for (var i = 0; i < numbers.length; i++) {
+    if (numbers[i] > 1)
+      throw new ApiError("Este metodo solo permite valores entre 0 y 1", 400);
+      
     n = convertToExpected(numbers[i].toString()).substring(2, 7);
     repeatedObj = associativeRepeates(n);
     casse = evaluateCase(repeatedObj);

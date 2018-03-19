@@ -35,7 +35,7 @@ function makeRequest(method, significancy, input) {
       window[method](data); // Trick .. XDDD
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
-      //TODO ERROR NOTIFY
+      $.notify("Error: "+XMLHttpRequest.responseJSON.error, "error");
     }
   });
 }
@@ -205,11 +205,16 @@ function runBelowHalf(data) {
     data.runs +
     "</span></h5>";
 
+    var media =
+      '<h5>Media: <span class="badge badge-primary">' +
+      data.media +
+      "</span></h5>";
+
   var corridasStr = "<h5>Texto de Corrida: " + data.runStr + "</h5>";
 
   $("#result").empty();
   $("#result").append(
-    valid + zCalculada + zTabla + n1 + n2 + corridas + corridasStr
+    valid + zCalculada + zTabla + n1 + n2 + media + corridas + corridasStr
   );
 }
 
@@ -300,7 +305,7 @@ function gaps(data) {
     order: [],
     aoColumnDefs: [
       {
-        aTargets: [4],
+        aTargets: [2,3,4],
         mRender: function(data, type, full) {
           return data.toString().match(/^-?\d+(?:\.\d{0,4})?/)[0];
         }

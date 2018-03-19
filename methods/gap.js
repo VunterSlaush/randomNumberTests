@@ -1,5 +1,6 @@
 const utils = require("./utils");
 module.exports = function(numbers, significancy = 0.05) {
+  console.log("Numbers L",numbers.length);
   const table = generateTable(numbers);
   const filledTable = fillTable(table, numbers);
   const higherGap = findHigherGap(table);
@@ -64,7 +65,7 @@ function findHigherGap(table) {
 }
 function findHighDivisor(number) {
   let divisor = 1;
-  if (number % 2 != 0) number += 1;
+  if (number % 2 != 0 && number % 3 != 0 ) number += 1;
   for (var i = 1; i <= 3; i++) {
     if (number % i == 0) divisor = i;
   }
@@ -78,11 +79,10 @@ function generateIntervalsTable(divisor, limit) {
 
   for (var i = 0; i < limit / divisor; i++) {
     table[from + "-" + to] = { from: from, to: to };
-    if (to == limit) break;
+    if (to >= limit) break;
     from = to + 1; // 6
     to = to + divisor + 1; // 5 + 5 + 1 = 11
 
-    //if (to > limit) to = limit;
   }
   return table;
 }
@@ -115,8 +115,6 @@ function fillSNColum(intervalsTable) {
   let sum = 0;
   for (var i in intervalsTable) {
     intervalsTable[i].sn = sum + intervalsTable[i].refreq;
-
-    console.log("Sum", sum, intervalsTable[i].sn);
     sum += intervalsTable[i].refreq;
   }
 }

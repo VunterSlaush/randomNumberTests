@@ -19,7 +19,8 @@ module.exports = function(numbers, a) {
     n1: n1,
     n2: n2,
     zFromTable,
-    runStr
+    runStr,
+    media
   };
 };
 
@@ -34,9 +35,12 @@ function toRunString(numbers, media) {
 }
 
 function runsForCertainChar(runStr, chr) {
-  let count = 0;
+  let count = runStr.charAt(0) == chr ? 1 : 0;
+  let dif = runStr.charAt(0) != chr;
   for (var i = 0; i < runStr.length; i++) {
-    if (runStr.charAt(i) == chr) count++;
+    if (runStr.charAt(i) == chr && dif) count++;
+
+    dif = runStr.charAt(i) != chr
   }
   return count;
 }

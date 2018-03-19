@@ -10,9 +10,8 @@ const controllerHandler = method => async (req, res, next) => {
     const result = method(numbersFormatted, req.body.significancy);
     return res.json(result || { message: "OK" });
   } catch (error) {
-    console.log("Error", error);
-    if (error.status) return res.status(error.status).json({ error: error });
-    else res.status(500).json({});
+    if (error.status) return res.status(error.status).json({ error: error.name});
+    else res.status(500).json({error:"Error en los datos ingresados"});
   }
 };
 
@@ -29,6 +28,7 @@ async function getNumbers(file) {
 
 function convertToNumbers(text) {
   console.log("CALLING convertToNumbers");
+
   return text
     .replaceAll("[", "")
     .replaceAll("]", "")
