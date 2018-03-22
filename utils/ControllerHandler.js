@@ -1,4 +1,5 @@
 var fs = require("fs");
+const ApiError = require("./ApiError");
 
 const controllerHandler = method => async (req, res, next) => {
   try {
@@ -10,6 +11,7 @@ const controllerHandler = method => async (req, res, next) => {
     const result = method(numbersFormatted, req.body.significancy);
     return res.json(result || { message: "OK" });
   } catch (error) {
+    console.log("Error",error);
     if (error.status) return res.status(error.status).json({ error: error.name});
     else res.status(500).json({error:"Error en los datos ingresados"});
   }
@@ -27,7 +29,9 @@ async function getNumbers(file) {
 }
 
 function convertToNumbers(text) {
-  console.log("CALLING convertToNumbers");
+  console.log("CALLING convertToNumbers",text);
+
+  evaluateIfHaveLetters(text);
 
   return text
     .replaceAll("[", "")
@@ -37,6 +41,15 @@ function convertToNumbers(text) {
     .map(function(item) {
       return Number(item);
     });
+}
+
+function evaluateIfHaveLetters(text) {
+  if (text.match(/[a-z]/) || text.match(/[A-Z]/)) {
+    throw new ApiError("No se permiten caracteres especiales ni letras!", 400)
+  }
+  if (text.match(/[-\/\\^$*+?()|{}]/g)) {
+    throw new ApiError("No se permiten caracteres especiales ni letras!", 400)
+  }
 }
 
 module.exports = controllerHandler;
